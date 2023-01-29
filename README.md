@@ -64,6 +64,7 @@ sudo docker-compose exec web python3 manage.py createsuperuser
     "is_active": true
 }
 ```
+Итог: http://<ваш домен>/5qiYuW -> https://testurl.com
 
 Приложение протестировано.
 
