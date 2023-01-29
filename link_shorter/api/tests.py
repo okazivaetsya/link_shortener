@@ -8,19 +8,37 @@ class TestAPI(APITestCase):
     """Тестируем POST запросы"""
     url = '/api/tokens/'
 
-    def test_token_creation(self):
+    def setUp(self) -> None:
+        Tokens.objects.create(
+            full_url='https://ya.ru/',
+            short_url='aEdj01',
+        )
+
+    def test_token_get_or_creat(self):
         """Проверка создания токенра через api"""
-        data = {
+        creation_data = {
             'full_url': 'http://post.url.test.ru'
         }
-        response = self.client.post(self.url, data=data)
-        result = response.json()
+        existing_data = {
+            'full_url': 'https://ya.ru/'
+        }
+        response_create = self.client.post(self.url, data=creation_data)
+        result_create = response_create.json()
 
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(result['full_url'], 'http://post.url.test.ru')
-        self.assertEqual(len(result['short_url']), 6)
-        self.assertIsInstance(result, dict)
-        self.assertEqual(Tokens.objects.all().count(), 1)
+        response_get = self.client.post(self.url, data=existing_data)
+        result_get = response_get.json()
+
+        self.assertEqual(response_create.status_code, 201)
+        self.assertEqual(response_get.status_code, 200)
+        self.assertEqual(result_create['full_url'], 'http://post.url.test.ru')
+        self.assertEqual(len(result_create['short_url']), 6)
+        self.assertIsInstance(result_create, dict)
+        self.assertEqual(len(result_create), 6)
+        self.assertEqual(Tokens.objects.all().count(), 2)
+        self.assertEqual(result_get['full_url'], 'https://ya.ru/')
+        self.assertEqual(result_get['short_url'], 'aEdj01')
+        self.assertIsInstance(result_get, dict)
+        self.assertEqual(len(result_get), 6)
 
 
 class TestRedirection(TestCase):

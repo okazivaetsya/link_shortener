@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework import status
 from .models import Tokens
 
 
@@ -25,4 +26,8 @@ class TokenSerializer(serializers.ModelSerializer):
         """
         full_url = validated_data['full_url']
         token, created = Tokens.objects.get_or_create(full_url=full_url)
-        return token
+        if created:
+            status_code = status.HTTP_201_CREATED
+        else:
+            status_code = status.HTTP_200_OK
+        return token, status_code

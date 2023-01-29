@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -10,5 +11,8 @@ class TokenAPIView(APIView):
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, 201)
+            token, status_code = serializer.create(
+                validated_data=serializer.validated_data
+            )
+            return Response(TokenSerializer(token).data, status=status_code)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
