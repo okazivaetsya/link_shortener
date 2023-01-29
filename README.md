@@ -1,6 +1,6 @@
 # Сократитель ссылок
-Сервис для сокращения ссылок реализованный в форме Web-приложение с API.
-Технологии: Django, DRF, Docker, PostgreSQL, Unittest
+Сервис для сокращения ссылок реализованный в форме Web-приложение с API.  
+Технологии: Django / DRF / Docker / NginX / Docker-compose / PostgreSQL / Unittest
 
 ## Входные данные
 Проект выложен на http://158.160.26.117
@@ -65,5 +65,5 @@ sudo docker-compose exec web python3 manage.py createsuperuser
 }
 ```
 
-
+Приложение протестировано.
 
