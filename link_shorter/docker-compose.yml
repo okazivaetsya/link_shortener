@@ -8,7 +8,7 @@ services:
       - .env
 
   web:
-    image: okazivaetsya/link_shortner:v7
+    image: okazivaetsya/link_shortner:v9
     restart: always
     depends_on:
       - db
