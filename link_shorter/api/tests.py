@@ -59,7 +59,7 @@ class TestRedirection(TestCase):
         )
 
     def test_redirection(self):
-        """Тестируем счетчик запросов токена"""
+        """Тестируем переадресацию"""
         response = self.client.get(self.active_url)
 
         self.assertEqual(response.status_code, 302)
