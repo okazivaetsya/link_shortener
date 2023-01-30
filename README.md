@@ -1,7 +1,7 @@
-# Сократитель ссылок
 ![workflow status badge](https://github.com/okazivaetsya/link_shortener/actions/workflows/main.yml/badge.svg?event=push)  
+# Сократитель ссылок
 Сервис для сокращения ссылок реализованный в форме Web-приложение с API.  
-Технологии: Django / DRF / Docker / NginX / Docker-compose / PostgreSQL / Unittest
+Технологии: Django / DRF / Docker / NginX / Docker-compose / PostgreSQL / Unittest / GitHub Actions
 
 ## Входные данные
 Проект выложен на http://158.160.26.117
