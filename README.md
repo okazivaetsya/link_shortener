@@ -1,5 +1,5 @@
 # Сократитель ссылок
-![workflow status badge](https://github.com/okazivaetsya/link_shortener/actions/workflows/mail.yml/badge.svg?event=push)
+![workflow status badge](https://github.com/okazivaetsya/link_shortener/actions/workflows/mail.yml/badge.svg?event=push)  
 Сервис для сокращения ссылок реализованный в форме Web-приложение с API.  
 Технологии: Django / DRF / Docker / NginX / Docker-compose / PostgreSQL / Unittest
 
