@@ -34,12 +34,17 @@ class Tokens(models.Model):
         короткая ссылка генерится автоматически.
         """
         if not self.short_url:
-            self.short_url = ''.join(
-                random.choices(
-                    settings.CHARACTERS,
-                    k=settings.TOKEN_LENGTH
+            while True:
+                self.short_url = ''.join(
+                    random.choices(
+                        settings.CHARACTERS,
+                        k=settings.TOKEN_LENGTH
+                    )
                 )
-            )
+                if not Tokens.objects.filter(
+                    short_url=self.short_url
+                ).exists():
+                    break
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
