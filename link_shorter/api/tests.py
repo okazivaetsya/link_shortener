@@ -14,31 +14,57 @@ class TestAPI(APITestCase):
             short_url='aEdj01',
         )
 
-    def test_token_get_or_creat(self):
-        """Проверка создания токенра через api"""
-        creation_data = {
-            'full_url': 'http://post.url.test.ru'
-        }
+    def test_token_get(self):
+        """Проверка получения уже существующего токена"""
         existing_data = {
             'full_url': 'https://ya.ru/'
         }
-        response_create = self.client.post(self.url, data=creation_data)
-        result_create = response_create.json()
-
         response_get = self.client.post(self.url, data=existing_data)
         result_get = response_get.json()
 
-        self.assertEqual(response_create.status_code, 201)
         self.assertEqual(response_get.status_code, 200)
-        self.assertEqual(result_create['full_url'], 'http://post.url.test.ru')
-        self.assertEqual(len(result_create['short_url']), 6)
-        self.assertIsInstance(result_create, dict)
-        self.assertEqual(len(result_create), 6)
-        self.assertEqual(Tokens.objects.all().count(), 2)
+        self.assertEqual(Tokens.objects.all().count(), 1)
         self.assertEqual(result_get['full_url'], 'https://ya.ru/')
         self.assertEqual(result_get['short_url'], 'aEdj01')
         self.assertIsInstance(result_get, dict)
         self.assertEqual(len(result_get), 6)
+
+    def test_token_create(self):
+        """
+        Проверка создания токена без явного указания короткой ссылки
+        и с явным указанием короткой ссылки
+        """
+        creation_data = {
+            'full_url': 'http://post.url.test.ru'
+        }
+        creation_full_data = {
+            'full_url': 'http://test.ru',
+            'short_url': 'Q2We34'
+        }
+        response_create = self.client.post(self.url, data=creation_data)
+        result_create = response_create.json()
+
+        response_create_with_short_url = self.client.post(
+            self.url, data=creation_full_data
+        )
+        result_create_with_short_url = response_create_with_short_url.json()
+
+        self.assertEqual(response_create.status_code, 201)
+        self.assertEqual(result_create['full_url'], 'http://post.url.test.ru')
+        self.assertEqual(len(result_create['short_url']), 6)
+        self.assertIsInstance(result_create, dict)
+        self.assertEqual(Tokens.objects.all().count(), 3)
+        self.assertEqual(len(result_create), 6)
+        self.assertEqual(
+            result_create_with_short_url['full_url'],
+            'http://test.ru',
+            msg='Ошибка full_url'
+        )
+        self.assertEqual(
+            result_create_with_short_url['short_url'],
+            'Q2We34',
+            msg='Ошибка short_url'
+        )
 
 
 class TestRedirection(TestCase):
